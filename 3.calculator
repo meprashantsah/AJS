@@ -1,0 +1,82 @@
+<html>
+<title>
+    AJS Simple Calculator
+</title>
+
+<head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js">
+    </script>
+</head>
+
+<body ng-app="calcApp" style="font-size: 4vh ;">
+    <h1>Angular JS Simple Calculator</h1>
+    <div ng-controller="calcCntrl">
+
+        Enter First Number: <input type="number" ng-model="num1">  <br><br>
+
+        Enter Second Number:<input type="number" ng-model="num2"> <br><br>
+
+        Select Operator:<select ng-model="operator"> <br><br>
+            <option value=""></option>
+            <option value="add">+</option>
+            <option value="sub">-</option>
+            <option value="mul">*</option>
+            <option value="div">/</option>
+        </select>
+
+        <!-- <input type="button" value="Compute" ng-click="compute()" > -->
+        <button ng-click="compute()">Compute</button>
+        <br><br>
+
+        <b>{{num1 +" "+  operator  +" "+ num2 +"="+ result}}</b>
+
+    </div>
+</body>
+
+<script>
+        var app = angular.module("calcApp", []);
+        app.controller("calcCntrl", function ($scope) {
+            $scope.num1 = 0
+            $scope.num2 = 0
+            $scope.result
+            $scope.operator = ""
+            
+            $scope.compute = function () {
+
+                if($scope.num1==0 && $scope.num2==0){
+                    alert("please enter num1 and num2")
+                }
+
+                else{
+                    switch ($scope.operator) {
+
+                        case 'add': $scope.result = $scope.num1 + $scope.num2
+
+                            break
+
+                        case 'sub': $scope.result = $scope.num1 - $scope.num2
+
+                            break
+
+                        case 'mul': $scope.result = $scope.num1 * $scope.num2
+
+                            break
+
+                        case 'div': if ($scope.num2 == 0) {
+
+                                        alert("Divide by zero error")
+                                    }
+                                    else {
+                                        $scope.result = $scope.num1 / $scope.num2
+                                    }
+                        default : alert("please select operator")
+
+                    }
+                }
+
+                
+            }
+        });
+    </script>
+
+</html>
