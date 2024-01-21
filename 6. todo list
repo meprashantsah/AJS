@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.min.js"></script>
+</head>
+<body ng-app="todolist">
+    <div ng-controller="mycontroller">
+        enter new todo:
+        <input type="text" ng-model="newtodo">
+        <input type="button" value="add" ng-click="addtodo()">
+
+        <ol>
+            <li ng-repeat="todo in todos">
+                <input type="checkbox" ng-model="todo.completed">
+                {{todo.text}}
+                <input type="text" ng-show="todo.editing" ng-model="todo.text">
+                <input type="button" value="edit" ng-click="edit(todo)">
+                <input type="button" value="remove" ng-click="remove(index)">
+            </li>
+        </ol>
+        <p>Total tasks: {{todos.length}}</p>
+    </div>
+</body>
+</html>
+
+<script>
+    var myvar=angular.module("todolist",[])
+    myvar.controller("mycontroller",function($scope){
+        $scope.todos=[
+            {completed:false,text:"learn angular",edit:false},
+            {completed:true,text:"learn dsa",edit:false}
+        ]
+        $scope.addtodo=function(){
+            if(!$scope.todo){
+                alert("add a to do")
+            }
+            if($scope.newtodo){
+                $scope.todos.push({
+                    text:$scope.newtodo,completed:false,edit:false
+                })
+            }
+        }
+        $scope.remove=function(index){
+            $scope.todos.splice(index,1)
+        }
+        $scope.edit=function(todo){
+            todo.editing=!todo.editing
+        }
+    })
+</script>
