@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program7</title>
+    <script src="angularjsimportant.js"></script>
+</head>
+<body ng-app="myapp">
+    <div ng-controller="account_creation">
+        <h2>CRUD app</h2>
+        Enter a name : <input type="text" ng-model="u_name">&emsp;
+        Enter a email : <input type="text" ng-model="u_email">&emsp;
+        <input type="button" value="Create account" ng-model="list1" ng-click="add_account()">  
+        <ul>
+            <li ng-repeat="account in accounts">
+                <span ng-show="!account.EDITING">{{account.Name}}</span>&emsp;
+                <span ng-show="!account.EDITING">{{account.Email}}</span>&emsp;
+                <input ng-show="account.EDITING" ng-model="account.Name" ng-blur="turnOffEditing(account)">&emsp;
+                <input ng-show="account.EDITING" ng-model="account.Email" ng-blur="turnOffEditing(account)">&emsp;
+                <input type="button" value="Update" ng-click="edit_account(account)">&emsp;
+                <input type="button" value="Delete" ng-click="delete_account(account)">&emsp;
+            
+            </li>
+        
+        </ul>
+    </div>
+</body>
+</html>
+
+<script>
+    var task = angular.module("myapp",[]);
+    task.controller("account_creation",function($scope)
+    {
+        $scope.accounts = [
+            {"Name" : "sah" , "Email" : "sah@gmail.com", "EDITING":false}
+    ];
+
+    $scope.add_account = function()
+    {
+        if($scope.u_name == null)
+        {
+            alert("Please enter all values to create account");
+            return false;
+        }
+        else if($scope.u_email == null)
+        {
+            alert("Please enter all values to create account");
+            return false;
+        }
+        else{
+            var t = {
+                "Name" : $scope.u_name,
+                "Email" : $scope.u_email,
+                "EDITING" : false
+            }
+            $scope.accounts.push(t);
+        }
+    }
+    $scope.edit_account = function(account)
+    {
+        account.EDITING = true;
+    }
+    $scope.turnOffEditing = function(account){
+        if($scope.u_name == null)
+        {
+            alert("Please enter all values to create account");
+            return false;
+        }
+        else if($scope.u_email == null)
+        {
+            alert("Please enter all values to create account");
+            return false;
+        }
+        else{
+            var t = {
+                "Name" : $scope.u_name,
+                "Email" : $scope.u_email,
+                "EDITING" : false
+            }
+            $scope.accounts.push(t);
+        }
+        account.EDITING = false;
+    }
+
+    $scope.delete_account = function(account)
+    {
+        var doublecheck = confirm("Are you sure you want to remove this account ?");
+        if(doublecheck == true)
+        {
+            var idx = $scope.accounts.indexOf(account);
+            $scope.accounts.splice(idx,1);
+        }
+        else{
+            alert("You chose not to remove this task");
+        }
+    }
+
+    });
+</script>
