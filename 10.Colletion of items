@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="angularjsimportant.js"></script>
+</head>
+<body ng-app="collection">
+    <h1>collection of items</h1>
+    <div ng-controller="collectionCtrl">
+        
+        <label>Enter the item to be added <br>
+            <input type="text" id="ip" ng-model="additem" />
+            <button ng-click="add()">Add</button><br>
+        </label><br>
+        <label>Select the item to be removed <br>
+            <select ng-model="removeitem" id="rm" ng-options="item for item in items">{{ item }}</select>
+            <button ng-click="remove()">Remove Item</button>
+        </label>
+
+        <br><br>
+        <table border="1">
+            <tr>
+                <th>Slno</th>
+                <th>Name</th>
+            </tr>
+            <tr ng-repeat="item in items">
+                <td>{{$index + 1}}</td>
+                <td>{{item}}</td>
+                
+            </tr>
+        </table>
+
+        <br>
+        #Count={{items.length}}
+    </div>
+</body>
+
+<script>
+
+    var a = angular.module("collection", []);
+    a.controller("collectionCtrl", function ($scope) {
+        $scope.items = ['mango', 'cherry', 'strawberry', 'apple']
+        $scope.add = function () {
+            if ($scope.additem && $scope.items.indexOf($scope.additem) == -1) {
+                $scope.items.push($scope.additem);
+                $scope.additem = "";
+            }
+            else {
+                if ($scope.additem) {
+                    alert("Already exist");
+                    document.getElementById("ip").focus();
+                    return false;
+                }
+                else {
+                    alert("please enter item to add");
+                    document.getElementById("ip").focus();
+                    return false;
+                }
+            }
+        }
+        $scope.remove = function () {
+            if ($scope.items.indexOf($scope.removeitem) == -1) {
+                alert("Please select an item to remove");
+                document.getElementById("rm").focus()
+                return false;
+            }
+            else {
+                var index = $scope.items.indexOf($scope.removeitem);
+                $scope.items.splice(index, 1)
+                $scope.removeitem = "";
+            }
+        }
+    })
+
+
+</script>
+
+</html>
+
+
+
+
