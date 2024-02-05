@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="angularjsimportant.js"></script>
+</head>
+<body ng-app="searchEmp">
+    <h2>Search employee by name or salary</h2>
+    <div ng-controller="searchEmpCtrlr">
+        
+        Enter Name: <input ng-model="sname"/>
+        Enter Salary: <input ng-model="ssalary"/>
+        
+        <input type="button" value="clear filters" ng-click="filt()"><br>
+
+        <h3>List of employees</h3>
+        <table border="1">
+            <tr>
+                <th>Slno</th>
+                <th>Name</th>
+                <th>Salary</th>
+            </tr>
+            <tr ng-repeat="empl in employees | filter:{name:sname, salary:ssalary}">
+                <td>{{$index + 1}}</td>
+                <td>{{empl.name}}</td>
+                <td>{{empl.salary}}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    
+    
+</body>
+<script>
+    var sed =angular.module("searchEmp",[])
+    sed.controller("searchEmpCtrlr",function($scope){
+        $scope.employees=[
+            {"name":"akash","salary":34000},
+            {"name":"rohan","salary":29000},
+            {"name":"prashant","salary":37000},
+            {"name":"arogya","salary":41000},
+            {"name":"om","salary":41000},
+            {"name":"prakash","salary":62000},
+
+        ];
+
+        $scope.filt=function(){
+            $scope.sname="";
+            $scope.ssalary="";
+        }
+    })
+</script>
+</html>
