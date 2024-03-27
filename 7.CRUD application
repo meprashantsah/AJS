@@ -1,101 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program7</title>
-    <script src="angularjsimportant.js"></script>
+    <title>Document</title>
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js">
+    </script>
 </head>
-<body ng-app="myapp">
-    <div ng-controller="account_creation">
-        <h2>CRUD app</h2>
-        Enter a name : <input type="text" ng-model="u_name">&emsp;
-        Enter a email : <input type="text" ng-model="u_email">&emsp;
-        <input type="button" value="Create account" ng-model="list1" ng-click="add_account()">  
-        <ul>
-            <li ng-repeat="account in accounts">
-                <span ng-show="!account.EDITING">{{account.Name}}</span>&emsp;
-                <span ng-show="!account.EDITING">{{account.Email}}</span>&emsp;
-                <input ng-show="account.EDITING" ng-model="account.Name" ng-blur="turnOffEditing(account)">&emsp;
-                <input ng-show="account.EDITING" ng-model="account.Email" ng-blur="turnOffEditing(account)">&emsp;
-                <input type="button" value="Update" ng-click="edit_account(account)">&emsp;
-                <input type="button" value="Delete" ng-click="delete_account(account)">&emsp;
-            
-            </li>
+<body ng-app="crud">
+    <div ng-controller="crudctrlr">
+        <h1>CRUD Application</h1>
         
+        Enter your name: <input type="text" id="name" ng-model="name"> <br> <br>
+        Enter your email: <input type="email" id="email" ng-model="email">
+        <button ng-model="create" ng-click="create()">create</button>
+
+        <ul>
+            <li ng-repeat="user in users">
+                {{user.name}}
+                <input type="text" ng-show="user.editing" ng-model="user.name">
+                {{user.email}}
+                <input type="text" ng-show="user.editing" ng-model="user.email">
+
+                <input type="button" value="read" ng-click="read(user)">
+                <input type="button" value="update" ng-click="update(user)">
+                <input type="button" value="delete" ng-click="delete(user)">
+            </li>
         </ul>
+
     </div>
 </body>
-</html>
 
 <script>
-    var task = angular.module("myapp",[]);
-    task.controller("account_creation",function($scope)
-    {
-        $scope.accounts = [
-            {"Name" : "sah" , "Email" : "sah@gmail.com", "EDITING":false}
-    ];
+   var myapp=angular.module("crud",[])
+   myapp.controller("crudctrlr",function($scope){
 
-    $scope.add_account = function()
-    {
-        if($scope.u_name == null)
-        {
-            alert("Please enter all values to create account");
-            return false;
-        }
-        else if($scope.u_email == null)
-        {
-            alert("Please enter all values to create account");
-            return false;
-        }
-        else{
-            var t = {
-                "Name" : $scope.u_name,
-                "Email" : $scope.u_email,
-                "EDITING" : false
+        $scope.users=[]
+        
+        // create
+        $scope.create=function(){
+            if($scope.name==null){
+                alert("Add name")
+                document.getElementById("name").focus();
+                return false
             }
-            $scope.accounts.push(t);
-        }
-    }
-    $scope.edit_account = function(account)
-    {
-        account.EDITING = true;
-    }
-    $scope.turnOffEditing = function(account){
-        if($scope.u_name == null)
-        {
-            alert("Please enter all values to create account");
-            return false;
-        }
-        else if($scope.u_email == null)
-        {
-            alert("Please enter all values to create account");
-            return false;
-        }
-        else{
-            var t = {
-                "Name" : $scope.u_name,
-                "Email" : $scope.u_email,
-                "EDITING" : false
+            if($scope.email==null){
+                alert("Add valid email")
+                document.getElementById("email").focus()
+                return false
             }
-            $scope.accounts.push(t);
+            else{
+                user={
+                    'name':$scope.name,
+                    'email':$scope.email,
+                    "editing":false
+                }
+                $scope.users.push(user)
+                $scope.name=""
+                $scope.email=""
+            }
         }
-        account.EDITING = false;
-    }
 
-    $scope.delete_account = function(account)
-    {
-        var doublecheck = confirm("Are you sure you want to remove this account ?");
-        if(doublecheck == true)
-        {
-            var idx = $scope.accounts.indexOf(account);
-            $scope.accounts.splice(idx,1);
+        // read
+        $scope.read=function(user){
+            user.editing=true
         }
-        else{
-            alert("You chose not to remove this task");
-        }
-    }
 
-    });
+        // update
+        $scope.update=function(user){
+            if(user.name==null){
+                alert("Add name")
+                return false
+            }
+            else if(user.email==null){
+                alert("Add valid email")
+                return false
+            }
+            else{
+                user.editing=false,
+                $scope.name="",
+                $scope.email=""
+            }
+        }
+
+        // delete
+        $scope.delete=function(user){
+            var doublecheck=confirm("Are you sure you want to delete" + user.name + "?")
+            if(doublecheck==true){
+                var index=$scope.users.indexOf(user)
+                $scope.users.splice(index,1)
+            }
+            else{
+                alert("You choose not to delete")
+            }
+            
+        }
+       
+   })
 </script>
+
+</html>
